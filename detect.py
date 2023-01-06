@@ -23,11 +23,64 @@ def detect(img_path: str) -> Dict[str, int]:
     img = cv2.imread(img_path, cv2.IMREAD_COLOR)
 
     #TODO: Implement detection method.
-    
+    size0 = 4080
+    size1 = 3072
+    scale = 1
+
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+    # threshold dla fioletowego
+    threshold_p = cv2.inRange(hsv, (160, 65, 50), (170, 200, 200))
+    dilated_img_p = cv2.dilate(threshold_p, (50, 50), iterations=2)
+    (cnt_p, hier_p) = cv2.findContours(dilated_img_p, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+
+    p = 0
+    if (img.shape[0] != size0 & img.shape[1] != size0):
+        if (img.shape[0] > img.shape[1]):
+            scale = img.shape[0] / size0
+        else:
+            scale = img.shape[1] / size0
+
+    for i in range(len(cnt_p)):
+        if (cv2.contourArea(cnt_p[i]) > (400 * scale)):
+            p = p + 1
+
+    # threshold dla zielonego
+    threshold_g = cv2.inRange(hsv, (36,110,110), (50, 250,240))
+    dilated_img_g = cv2.erode(threshold_g, (20, 20), iterations=3)
+    (cnt_g, hier_g) = cv2.findContours(dilated_img_g, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+
+    g = 0
+    if (img.shape[0] != size0 & img.shape[1] != size0):
+        if (img.shape[0] > img.shape[1]):
+            scale = img.shape[0] / size0
+        else:
+            scale = img.shape[1] / size0
+
+    for i in range(len(cnt_g)):
+        if (cv2.contourArea(cnt_g[i]) > (200 * scale)):
+            g = g + 1
+
+    # threshold dla zoltego
+    threshold_y = cv2.inRange(hsv, (22,180,180), (30, 255,250))
+    dilated_img_y = cv2.erode(threshold_y, (20, 20), iterations=3)
+    (cnt_y, hier_y) = cv2.findContours(dilated_img_y, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+
+    y = 0
+    if (img.shape[0] != size0 & img.shape[1] != size0):
+        if (img.shape[0] > img.shape[1]):
+            scale = img.shape[0] / size0
+        else:
+            scale = img.shape[1] / size0
+
+    for i in range(len(cnt_y)):
+        if (cv2.contourArea(cnt_y[i]) > (200 * scale)):
+            y = y + 1
+
     red = 0
-    yellow = 0
-    green = 0
-    purple = 0
+    yellow = y
+    green = g
+    purple = p
 
     return {'red': red, 'yellow': yellow, 'green': green, 'purple': purple}
 
