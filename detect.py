@@ -77,7 +77,26 @@ def detect(img_path: str) -> Dict[str, int]:
         if (cv2.contourArea(cnt_y[i]) > (200 * scale)):
             y = y + 1
 
-    red = 0
+    #threshold dla czerwonego
+    threshold1 = cv2.inRange(hsv, (1, 65, 85), (8, 255, 255))
+    threshold2 = cv2.inRange(hsv, (178, 65, 85), (180, 255, 255))
+    threshold_r = threshold2 + threshold1
+    dilated_img_r = cv2.dilate(threshold_r, (50, 50), iterations=2)
+
+    (cnt_r, hier_r) = cv2.findContours(dilated_img_r, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+
+    r = 0
+    if (img.shape[0] != size0 & img.shape[1] != size0):
+        if (img.shape[0] > img.shape[1]):
+            scale = img.shape[0] / size0
+        else:
+            scale = img.shape[1] / size0
+
+    for i in range(len(cnt_r)):
+        if (cv2.contourArea(cnt_r[i]) > (700 * scale)):
+            r = r + 1
+
+    red = r
     yellow = y
     green = g
     purple = p
