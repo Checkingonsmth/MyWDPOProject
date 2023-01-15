@@ -46,7 +46,7 @@ def detect(img_path: str) -> Dict[str, int]:
             p = p + 1
 
     # threshold dla zielonego
-    threshold_g = cv2.inRange(hsv, (36,110,110), (50, 250,240))
+    threshold_g = cv2.inRange(hsv, (34,90,130), (53, 250,240))
     dilated_img_g = cv2.erode(threshold_g, (20, 20), iterations=3)
     (cnt_g, hier_g) = cv2.findContours(dilated_img_g, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
