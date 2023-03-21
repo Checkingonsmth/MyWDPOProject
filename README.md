@@ -151,7 +151,7 @@ python3 check.py
 
 Sprawdzarka zwraca wynik miary *MARPE* dla wykorzystanego zbioru lub wyjście z konsoli zawierające wiadomość błędu jaki wystąpił podczas uruchamiania skryptu. Sprawdzarka analzuje jedynie wyniki studentów zapisanych na kurs (w serwisie eKursy), dlatego w skrypcie [`check.py`](./check.py) należy ustawić swój numer indeksu. Z systemu sprawdzającego każdy student może skorzystać raz na 15 minut.
 
- WYNIK:
+ WYNIK (Mean Absolute Relative Percentage Error):
  <p align="center">
   <img width="299" height="49" src="./readme_files/score.png">
 </p>
