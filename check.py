@@ -22,7 +22,7 @@ def main():
 
             zip_file.write(file, file.relative_to(base_path))
 
-    data.seek(0)
+    data.seek(0) ABCCC
 
     try:
         response: HTTPResponse = urllib.request.urlopen(f'{URL}/{student_id}', data.read())
